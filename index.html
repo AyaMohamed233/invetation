@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+  <title>Mohamed &amp; Habiba — Wedding Invitation</title>
+
+  <!-- Google Fonts: Luxury English & Arabic Ruqaa -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Lighter, warmer luxury brown palette */
+      --brown-primary: #6E4B33;
+      --brown-secondary: #8A644B;
+      --gold-accent: #C5A059;
+      --gold-soft: rgba(197, 160, 89, 0.35);
+      --ivory-bg: #F4F1EA;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Prevent iOS Safari from coloring dates/numbers blue with underline */
+    a[href^="tel"],
+    a[href^="x-apple-data-detectors"],
+    .save-date-sub a,
+    .detail-item a,
+    .invitation-footer a {
+      color: inherit !important;
+      text-decoration: none !important;
+      pointer-events: none !important;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+      overflow-x: hidden;
+      scrollbar-gutter: stable;
+    }
+
+    body {
+      font-family: 'Aref Ruqaa', serif;
+      color: var(--brown-primary);
+      background-color: var(--ivory-bg);
+      overflow-x: hidden;
+      width: 100%;
+      min-height: 100vh;
+      position: relative;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body.envelope-locked {
+      overflow-y: hidden;
+      height: 100vh;
+    }
+
+    /* ==========================================
+       0. LUXURY 4-FLAP ENVELOPE & WAX SEAL INTRO
+       ========================================== */
+    .envelope-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      perspective: 1400px;
+      overflow: hidden;
+      transition: visibility 0s linear 5.0s, opacity 1.2s ease 3.8s;
+    }
+
+    .envelope-overlay.opened {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .envelope-stage {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      max-width: 620px;
+      margin: 0 auto;
+      overflow: hidden;
+      box-shadow: 0 0 60px rgba(70, 45, 28, 0.25);
+    }
+
+    /* Desktop surrounding backdrop outside the portrait envelope */
+    .envelope-backdrop {
+      position: absolute;
+      inset: 0;
+      background-image: url('envelope-cover.jpg');
+      background-size: cover;
+      background-position: center;
+      filter: blur(18px) brightness(0.92);
+      transform: scale(1.08);
+      z-index: 0;
+      transition: opacity 4.2s ease;
+    }
+
+    .envelope-overlay.opened .envelope-backdrop {
+      opacity: 0;
+    }
+
+    /* Individual Envelope Flaps sharing the embossed floral cover */
+    .env-flap-wrap {
+      position: absolute;
+      inset: 0;
+      will-change: transform, opacity;
+      transition: transform 4.8s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 4.2s ease;
+    }
+
+    .env-flap-inner {
+      width: 100%;
+      height: 100%;
+      background-image: url('envelope-cover.jpg');
+      background-size: 100% 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    /* Top & Bottom Flaps (underneath Left & Right flaps) */
+    .flap-top-wrap {
+      z-index: 1;
+      transform-origin: top center;
+    }
+    .flap-top-wrap .env-flap-inner {
+      clip-path: polygon(0 0, 100% 0, 50.2% 49.5%);
+    }
+
+    .flap-bottom-wrap {
+      z-index: 1;
+      transform-origin: bottom center;
+    }
+    .flap-bottom-wrap .env-flap-inner {
+      clip-path: polygon(0 100%, 100% 100%, 50.2% 49.5%);
+    }
+
+    /* Left & Right Flaps */
+    .flap-left-wrap {
+      z-index: 2;
+      transform-origin: left center;
+    }
+    .flap-left-wrap .env-flap-inner {
+      clip-path: polygon(0 0, 50.5% 49.5%, 0 100%);
+    }
+
+    .flap-right-wrap {
+      z-index: 2;
+      transform-origin: right center;
+    }
+    .flap-right-wrap .env-flap-inner {
+      clip-path: polygon(100% 0, 100% 100%, 49.8% 49.5%);
+    }
+
+    /* Slow, Smooth Opening Animation for the 4 Flaps */
+    .envelope-overlay.opened .flap-left-wrap {
+      transform: translate3d(-102%, 0, 0) rotateY(-24deg);
+    }
+
+    .envelope-overlay.opened .flap-right-wrap {
+      transform: translate3d(102%, 0, 0) rotateY(24deg);
+    }
+
+    .envelope-overlay.opened .flap-top-wrap {
+      transform: translate3d(0, -102%, 0) rotateX(18deg);
+    }
+
+    .envelope-overlay.opened .flap-bottom-wrap {
+      transform: translate3d(0, 102%, 0) rotateX(-18deg);
+    }
+
+    /* Static Wax Seal Button in the Center (No scaling, no pulsing, no shadow) */
+    .wax-seal-btn {
+      position: absolute;
+      top: 49.5%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+      width: clamp(128px, 34vw, 165px);
+      height: clamp(128px, 34vw, 165px);
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wax-seal-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      filter: none;
+    }
+
+    .wax-seal-hint {
+      position: absolute;
+      top: calc(100% + 12px);
+      white-space: nowrap;
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(1.5rem, 5.2vw, 1.8rem);
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      line-height: 1.1;
+      direction: ltr;
+      color: #FBF8F3;
+      background: rgba(88, 58, 38, 0.58);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      padding: 0.28rem 1.45rem 0.22rem;
+      border-radius: 999px;
+      border: 1px solid rgba(244, 232, 209, 0.45);
+      box-shadow: 0 4px 12px rgba(45, 26, 12, 0.2);
+      pointer-events: none;
+    }
+
+    .envelope-overlay.opened .wax-seal-btn {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.6s ease;
+    }
+
+    /* ==========================================
+       1. FIXED BACKGROUND LAYER
+       ========================================== */
+    .fixed-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image: url('background.png');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      transform: translateZ(0);
+    }
+
+    .fixed-bg-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: rgba(248, 245, 238, 0.28);
+      pointer-events: none;
+    }
+
+    /* ==========================================
+       2. FLYING BUTTERFLIES OVERLAY
+       ========================================== */
+    .butterflies-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 15;
+      overflow: hidden;
+    }
+
+    .butterfly {
+      position: absolute;
+      width: var(--size, 22px);
+      height: auto;
+      opacity: 0.88;
+      will-change: transform, left, top;
+      filter: drop-shadow(0 3px 4px rgba(110, 75, 51, 0.12));
+    }
+
+    .butterfly-inner {
+      width: 100%;
+      height: auto;
+      transform: scaleX(var(--dir, 1)) rotate(var(--tilt, 0deg));
+      transform-origin: center center;
+      transition: transform 0.35s ease-out;
+    }
+
+    .butterfly-sprite {
+      width: 100%;
+      height: auto;
+      display: block;
+      transform-origin: 68% 62%;
+      animation: butterflyFlap var(--flap-speed, 0.26s) cubic-bezier(0.4, 0, 0.6, 1) infinite alternate;
+    }
+
+    @keyframes butterflyFlap {
+      0% {
+        transform: perspective(140px) rotate3d(0.45, -0.89, 0, 0deg) translateY(1.5px);
+      }
+      100% {
+        transform: perspective(140px) rotate3d(0.45, -0.89, 0, 64deg) translateY(-2.5px);
+      }
+    }
+
+    /* ==========================================
+       3. MOBILE-FIRST RESPONSIVE CONTAINER
+       ========================================== */
+    .invitation-wrapper {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem 1rem 4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 3.25rem;
+    }
+
+    /* ==========================================
+       CENTERED VERTICAL SCROLL REVEAL TRANSITIONS (NO SIDEWAYS MOVEMENT)
+       ========================================== */
+    [data-reveal] {
+      opacity: 0;
+      transform: translate3d(0, 22px, 0);
+      transition: opacity 2.2s cubic-bezier(0.22, 1, 0.36, 1), transform 2.2s cubic-bezier(0.22, 1, 0.36, 1);
+      transition-delay: var(--reveal-delay, 0s);
+    }
+
+    [data-reveal="fade-down"] {
+      transform: translate3d(0, -18px, 0);
+    }
+
+    [data-reveal="zoom-soft"],
+    [data-reveal="pop-up"] {
+      transform: translate3d(0, 16px, 0) scale(0.95);
+    }
+
+    [data-reveal].revealed {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    .ornament-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      max-width: 220px;
+      margin: 0.5rem auto 2.5rem;
+    }
+
+    .ornament-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-accent), transparent);
+    }
+
+    .ornament-diamond {
+      width: 6px;
+      height: 6px;
+      background-color: var(--gold-accent);
+      transform: rotate(45deg);
+    }
+
+    /* ==========================================
+       4. SECTION 1: HERO (WELCOME + FULL VENUE IMAGE)
+       ========================================== */
+    .hero-section {
+      padding-top: 0.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .welcome-subtitle {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(0.7rem, 2.2vw, 0.84rem);
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #7B573F;
+      margin-bottom: 0.4rem;
+      direction: ltr;
+    }
+
+    .welcome-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2.4rem, 9vw, 3.8rem);
+      font-weight: 400;
+      color: var(--brown-primary);
+      line-height: 1.2;
+      direction: ltr;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Full-bleed enlarged venue image so the right cut sits past the screen edge */
+    .venue-container {
+      width: 100vw;
+      max-width: 600px;
+      margin: 0 calc(50% - 50vw);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .venue-img {
+      width: 112%;
+      max-width: none;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      transform: translateX(4%);
+    }
+
+    /* Luxury "Scroll for more details" indicator below venue image */
+    .scroll-more-hint {
+      margin-top: 1.35rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      direction: ltr;
+      opacity: 0;
+      transform: translate3d(0, 14px, 0);
+      transition: opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1), transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+      pointer-events: none;
+    }
+
+    .scroll-more-hint.is-visible {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .scroll-more-hint.is-hidden {
+      opacity: 0 !important;
+      transform: translate3d(0, 10px, 0) !important;
+    }
+
+    .scroll-more-text {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(0.66rem, 2.1vw, 0.78rem);
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: #7B573F;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .scroll-more-text::before,
+    .scroll-more-text::after {
+      content: '';
+      width: clamp(18px, 6vw, 32px);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-accent), transparent);
+    }
+
+    .scroll-more-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--gold-accent);
+      animation: luxuryScrollBob 2.4s ease-in-out infinite;
+    }
+
+    .scroll-more-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--brown-primary);
+      opacity: 0.85;
+    }
+
+    @keyframes luxuryScrollBob {
+      0%, 100% {
+        transform: translate3d(0, 0, 0);
+        opacity: 0.65;
+      }
+      50% {
+        transform: translate3d(0, 6px, 0);
+        opacity: 1;
+      }
+    }
+
+    /* ==========================================
+       5. SECTION 2: COUPLE NAMES & PHOTO
+       ========================================== */
+    .couple-names-en {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: clamp(1.35rem, 6.8vw, 3.3rem);
+      letter-spacing: 0.04em;
+      color: var(--brown-primary);
+      direction: ltr;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: nowrap;
+      white-space: nowrap;
+      width: 100%;
+      gap: clamp(0.25rem, 1.5vw, 0.45rem);
+    }
+
+    .couple-names-en .amp {
+      font-family: 'Great Vibes', cursive;
+      font-weight: 400;
+      font-size: 1.15em;
+      color: var(--gold-accent);
+      margin: 0 0.1rem;
+    }
+
+    .portrait-frame {
+      width: 100%;
+      max-width: 400px;
+      padding: 9px;
+      border-radius: 220px 220px 20px 20px;
+      border: 1px solid var(--gold-accent);
+      background: rgba(255, 253, 249, 0.35);
+      box-shadow: 0 14px 34px rgba(110, 75, 51, 0.1);
+    }
+
+    .portrait-inner {
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      border-radius: 210px 210px 14px 14px;
+      overflow: hidden;
+    }
+
+    .portrait-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ==========================================
+       6. SECTION 3: MONOGRAM, QURAN, NAMES, ADDRESS/DATE, TRANSPARENT VIDEO
+       ========================================== */
+    .monogram-wrapper {
+      width: clamp(120px, 34vw, 155px);
+      margin: 0 auto 0.75rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .monogram-img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .quran-verse {
+      font-family: 'Aref Ruqaa', serif;
+      font-size: clamp(1.2rem, 4.2vw, 1.65rem);
+      line-height: 1.9;
+      color: var(--brown-primary);
+      font-weight: 700;
+      max-width: 520px;
+      margin: 0.25rem auto 1.5rem;
+      padding: 0 0.5rem;
+    }
+
+    .couple-names-ar {
+      font-family: 'Aref Ruqaa', serif;
+      font-size: clamp(1.5rem, 7vw, 3.1rem);
+      font-weight: 700;
+      color: var(--brown-primary);
+      margin: 0.25rem 0 1.35rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: nowrap;
+      white-space: nowrap;
+      width: 100%;
+      gap: clamp(0.35rem, 2vw, 0.6rem);
+    }
+
+    .couple-names-ar .ar-amp {
+      color: var(--gold-accent);
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 600;
+      font-size: 0.85em;
+    }
+
+    /* Address & Date Side-by-Side: No border, no background, smaller size, with icons */
+    .details-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: nowrap;
+      gap: clamp(0.75rem, 3.5vw, 1.75rem);
+      width: 100%;
+      margin: 0 auto 2rem;
+      padding: 0.25rem 0;
+    }
+
+    .detail-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--brown-primary);
+      font-family: 'Aref Ruqaa', serif;
+      font-size: clamp(0.95rem, 3.4vw, 1.2rem);
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .detail-icon {
+      width: clamp(16px, 4.2vw, 20px);
+      height: clamp(16px, 4.2vw, 20px);
+      color: var(--brown-secondary);
+      flex-shrink: 0;
+    }
+
+    .detail-separator {
+      width: 1px;
+      height: 22px;
+      background-color: var(--gold-soft);
+      flex-shrink: 0;
+    }
+
+    /* Couple Video: transparent, zero frame, zero effects.
+       The poster frame shows instantly and stays until the first real video frame is drawn. */
+    .couple-media {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      aspect-ratio: 978 / 942;
+      margin: 0 auto;
+      background: url('couple-poster.webp') center / contain no-repeat;
+      pointer-events: none;
+    }
+
+    .couple-media.is-playing {
+      background-image: none;
+    }
+
+    .couple-media-canvas,
+    .couple-media > video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: transparent;
+    }
+
+    /* iPhone (WebGL mode): the source video must stay >0 opacity and >=16px or iOS
+       stops decoding its frames. Keep it 32x32 at 1% opacity behind the page. */
+    .video-source-holder {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      width: 32px;
+      height: 32px;
+      opacity: 0.01;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .video-source-holder video {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .couple-debug {
+      position: fixed;
+      bottom: 8px;
+      left: 8px;
+      right: 8px;
+      z-index: 200;
+      padding: 6px 10px;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.75);
+      color: #fff;
+      font: 12px/1.4 monospace;
+      direction: ltr;
+      text-align: left;
+    }
+
+    /* ==========================================
+       7. SECTION 4: SAVE THE DATE, COUNTDOWN & CAR ANIMATION
+       ========================================== */
+    .save-date-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .save-date-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2.5rem, 8.5vw, 3.6rem);
+      font-weight: 400;
+      color: var(--brown-primary);
+      direction: ltr;
+      margin-bottom: 0.2rem;
+    }
+
+    .save-date-sub {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(0.74rem, 2.3vw, 0.88rem);
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: #7B573F;
+      direction: ltr;
+      margin-bottom: 1.5rem;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: clamp(0.45rem, 2vw, 0.8rem);
+      width: 100%;
+      max-width: 420px;
+      margin-bottom: 2.5rem;
+      direction: ltr;
+    }
+
+    .countdown-item {
+      background: rgba(255, 253, 249, 0.42);
+      border: 1px solid var(--gold-soft);
+      border-radius: 12px;
+      padding: 0.75rem 0.35rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .countdown-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 5.5vw, 2.25rem);
+      font-weight: 700;
+      color: var(--brown-primary);
+      line-height: 1.1;
+    }
+
+    .countdown-label-ar {
+      font-family: 'Aref Ruqaa', serif;
+      font-size: clamp(0.8rem, 2.8vw, 0.92rem);
+      color: var(--brown-secondary);
+      margin-top: 0.2rem;
+    }
+
+    /* Car Moving Right -> Left Writing the Arabic Address */
+    .car-writer-stage {
+      width: 100%;
+      max-width: 520px;
+      margin: 0.5rem auto 0;
+      padding: 1.5rem 0.5rem 1rem;
+      position: relative;
+      overflow: hidden;
+      direction: ltr;
+    }
+
+    .car-track-container {
+      position: relative;
+      width: 100%;
+      height: 95px;
+      display: flex;
+      align-items: center;
+    }
+
+    .written-address-layer {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+      pointer-events: none;
+      clip-path: inset(0 0 0 100%);
+      will-change: clip-path;
+    }
+
+    .written-address-text {
+      font-family: 'Aref Ruqaa', serif;
+      font-size: clamp(0.95rem, 3.6vw, 1.45rem);
+      font-weight: 700;
+      color: var(--brown-primary);
+      direction: rtl;
+      white-space: nowrap;
+      padding-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+    }
+
+    .written-address-sep {
+      color: var(--gold-accent);
+      font-weight: 400;
+    }
+
+    .written-road-line {
+      width: 90%;
+      height: 1.5px;
+      background: linear-gradient(90deg, transparent 0%, var(--gold-accent) 20%, var(--brown-primary) 50%, var(--gold-accent) 80%, transparent 100%);
+    }
+
+    .moving-car-wrapper {
+      position: absolute;
+      top: 50%;
+      left: 135%;
+      opacity: 0;
+      transform: translate(-50%, -55%);
+      width: clamp(115px, 30vw, 165px);
+      z-index: 3;
+      will-change: left, opacity;
+      pointer-events: none;
+    }
+
+    .moving-car-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transform: scaleX(-1);
+    }
+
+    .invitation-footer {
+      margin-top: 1.25rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #7B573F;
+      letter-spacing: 0.08em;
+    }
+
+    @media (max-width: 390px) {
+      .invitation-wrapper {
+        padding: 1.5rem 0.75rem 3rem;
+      }
+      .details-row {
+        gap: 0.55rem;
+      }
+      .detail-item {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body class="envelope-locked">
+
+  <!-- Background Music: Abdel Halim Hafez - Ana Lak Ala Tool (Autoplays on Wax Seal click & Loops forever) -->
+  <audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
+
+  <!-- =====================================================
+       LUXURY ENVELOPE OPENING OVERLAY (Clicks Wax Seal to Open & Play Music)
+       ===================================================== -->
+  <div class="envelope-overlay" id="envelopeOverlay">
+    <div class="envelope-backdrop" aria-hidden="true"></div>
+
+    <div class="envelope-stage">
+      <div class="env-flap-wrap flap-top-wrap">
+        <div class="env-flap-inner"></div>
+      </div>
+      <div class="env-flap-wrap flap-bottom-wrap">
+        <div class="env-flap-inner"></div>
+      </div>
+      <div class="env-flap-wrap flap-left-wrap">
+        <div class="env-flap-inner"></div>
+      </div>
+      <div class="env-flap-wrap flap-right-wrap">
+        <div class="env-flap-inner"></div>
+      </div>
+
+      <button type="button" class="wax-seal-btn" id="waxSealBtn" aria-label="Open Invitation">
+        <img src="wax-seal.png" alt="Wax Seal" class="wax-seal-img" />
+        <span class="wax-seal-hint">Open</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Hidden source for the iPhone WebGL video (kept rendered behind the opaque background) -->
+  <div class="video-source-holder" id="videoSourceHolder" aria-hidden="true"></div>
+
+  <!-- Fixed Floral Background -->
+  <div class="fixed-bg" aria-hidden="true"></div>
+
+  <!-- Flying Colorful Harmonious Butterflies -->
+  <div class="butterflies-container" id="butterfliesContainer" aria-hidden="true"></div>
+
+  <main class="invitation-wrapper">
+
+    <!-- =====================================================
+         SECTION 1: WELCOME + COMPLETE UNCROPPED VENUE IMAGE (NO BG OR EFFECT)
+         ===================================================== -->
+    <section class="section hero-section">
+      <p class="welcome-subtitle" data-reveal="fade-down">Together With Their Families</p>
+      <h1 class="welcome-title" data-reveal="blur-focus" style="--reveal-delay: 0.3s">Welcome to our wedding</h1>
+
+      <div class="venue-container" data-reveal="zoom-soft" style="--reveal-delay: 0.6s">
+        <img
+          src="venue-clean.png"
+          alt="El Farida Venue"
+          class="venue-img"
+        />
+      </div>
+
+      <div class="scroll-more-hint" id="scrollMoreHint" aria-hidden="true">
+        <span class="scroll-more-text">Scroll for more details</span>
+        <span class="scroll-more-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="7 7 12 12 17 7"></polyline>
+            <polyline points="7 13 12 18 17 13"></polyline>
+          </svg>
+        </span>
+      </div>
+    </section>
+
+    <div class="ornament-divider" data-reveal="zoom-soft" aria-hidden="true">
+      <span class="ornament-line"></span>
+      <span class="ornament-diamond"></span>
+      <span class="ornament-line"></span>
+    </div>
+
+    <!-- =====================================================
+         SECTION 2: MOHAMED & HABIBA + COUPLE PORTRAIT
+         ===================================================== -->
+    <section class="section">
+      <h2 class="couple-names-en" data-reveal="slide-left">
+        <span>Mohamed</span>
+        <span class="amp">&amp;</span>
+        <span>Habiba</span>
+      </h2>
+
+      <div class="portrait-frame" data-reveal="arch-rise" style="--reveal-delay: 0.25s">
+        <div class="portrait-inner">
+          <img
+            src="intro1.png"
+            alt="Mohamed and Habiba"
+            class="portrait-img"
+          />
+        </div>
+      </div>
+    </section>
+
+    <div class="ornament-divider" data-reveal="zoom-soft" aria-hidden="true">
+      <span class="ornament-line"></span>
+      <span class="ornament-diamond"></span>
+      <span class="ornament-line"></span>
+    </div>
+
+    <!-- =====================================================
+         SECTION 3: MONOGRAM, QURANIC VERSE, ARABIC RUQAA NAMES,
+                    SMALLER ICON DETAILS (NO BORDER/BG), PLAIN VIDEO
+         ===================================================== -->
+    <section class="section">
+      <div class="monogram-wrapper" data-reveal="zoom-soft">
+        <img
+          src="letters.png"
+          alt="ح & م Monogram"
+          class="monogram-img"
+        />
+      </div>
+
+      <p class="quran-verse" data-reveal="blur-focus" style="--reveal-delay: 0.15s">
+        ﴿ وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً ﴾
+      </p>
+
+      <h2 class="couple-names-ar" data-reveal="slide-right" style="--reveal-delay: 0.2s">
+        <span>محمد</span>
+        <span class="ar-amp">&amp;</span>
+        <span>حبيبة</span>
+      </h2>
+
+      <!-- Address & Date Side by Side with Icons, No Border or Background -->
+      <div class="details-row">
+        <div class="detail-item" data-reveal="slide-right">
+          <!-- Location Pin Icon -->
+          <svg class="detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+          <span>فيلا الفريده المريوطيه هرم</span>
+        </div>
+
+        <span class="detail-separator" data-reveal="zoom-soft" aria-hidden="true"></span>
+
+        <div class="detail-item" data-reveal="slide-left" style="--reveal-delay: 0.25s">
+          <!-- Calendar Icon -->
+          <svg class="detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          <span>١١ ديسمبر ٢٠٢٦</span>
+        </div>
+      </div>
+
+      <!-- Couple video with a transparent background.
+           Android / Chrome / desktop: native VP9-alpha WebM.
+           iPhone / Safari: HD side-by-side MP4 composited through WebGL.
+           The poster frame is shown until the first real frame is ready. -->
+      <div class="couple-media" id="coupleMedia" data-reveal="arch-rise">
+        <canvas id="coupleCanvas" class="couple-media-canvas" width="978" height="942"></canvas>
+      </div>
+    </section>
+
+    <div class="ornament-divider" data-reveal="zoom-soft" aria-hidden="true">
+      <span class="ornament-line"></span>
+      <span class="ornament-diamond"></span>
+      <span class="ornament-line"></span>
+    </div>
+
+    <!-- =====================================================
+         SECTION 4: SAVE THE DATE, COUNTDOWN & CAR WRITING ADDRESS
+         ===================================================== -->
+    <section class="section save-date-section">
+      <h2 class="save-date-title" data-reveal="blur-focus">Save the Date</h2>
+      <p class="save-date-sub" data-reveal="fade-down" style="--reveal-delay: 0.25s">11 - 12 - 2026 • 7:00 PM</p>
+
+      <div class="countdown-grid" id="countdown">
+        <div class="countdown-item" data-reveal="pop-up" style="--reveal-delay: 0s">
+          <span class="countdown-number" id="cd-days">00</span>
+          <span class="countdown-label-ar">يوم</span>
+        </div>
+        <div class="countdown-item" data-reveal="pop-up" style="--reveal-delay: 0.25s">
+          <span class="countdown-number" id="cd-hours">00</span>
+          <span class="countdown-label-ar">ساعة</span>
+        </div>
+        <div class="countdown-item" data-reveal="pop-up" style="--reveal-delay: 0.5s">
+          <span class="countdown-number" id="cd-minutes">00</span>
+          <span class="countdown-label-ar">دقيقة</span>
+        </div>
+        <div class="countdown-item" data-reveal="pop-up" style="--reveal-delay: 0.75s">
+          <span class="countdown-number" id="cd-seconds">00</span>
+          <span class="countdown-label-ar">ثانية</span>
+        </div>
+      </div>
+
+      <!-- Car Moving Right-to-Left & Writing the Address + Time -->
+      <div class="car-writer-stage" id="carStage">
+        <div class="car-track-container">
+          <div class="written-address-layer" id="writtenLayer">
+            <div class="written-address-text">
+              <span>فيلا الفريده - المريوطيه هرم</span>
+              <span class="written-address-sep">|</span>
+              <span>من ٧ إلى ١١ مساءً</span>
+            </div>
+            <div class="written-road-line"></div>
+          </div>
+
+          <div class="moving-car-wrapper" id="movingCar">
+            <img
+              src="691c67f6-920d-424e-acff-e35ace3917aa-removebg-preview.png"
+              alt="Wedding Car"
+              class="moving-car-img"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="invitation-footer">
+      Mohamed &amp; Habiba • 11 . 12 . 2026
+    </footer>
+
+  </main>
+
+  <script>
+    // Always force page to start at the very top (beginning of invitation)
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+    window.addEventListener('load', () => window.scrollTo(0, 0));
+
+    // 0. Envelope Opening & Automatic Looping Music on Wax Seal Click
+    const envelopeOverlay = document.getElementById('envelopeOverlay');
+    const waxSealBtn = document.getElementById('waxSealBtn');
+    const bgMusic = document.getElementById('bgMusic');
+
+    // Guarantee seamless infinite loop whenever the track ends
+    bgMusic.addEventListener('ended', () => {
+      bgMusic.currentTime = 0;
+      bgMusic.play().catch(() => {});
+    });
+
+    // 1. Progressive Varied Scroll Reveal (Starts only after envelope opens)
+    const revealElements = document.querySelectorAll('[data-reveal]');
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.18, rootMargin: '0px 0px -40px 0px' }
+    );
+
+    // 0.5 Transparent Couple Video
+    //  - Android / Chrome / desktop: native VP9-alpha WebM (full original quality, no tricks)
+    //  - iPhone / iPad / Safari: Safari can't show WebM alpha, so the HD side-by-side MP4
+    //    (colour on the left, alpha mask on the right) is composited on the GPU via WebGL.
+    //  - Anything else / any failure: the transparent poster frame stays visible.
+    //  Add ?debug to the URL to show a live status bar for troubleshooting on a phone.
+    const coupleMedia = document.getElementById('coupleMedia');
+    const coupleCanvas = document.getElementById('coupleCanvas');
+    const coupleState = { mode: 'poster', frames: 0, error: '' };
+    let coupleInView = false;
+    let coupleUnlocked = false;
+    const coupleVideo = createCoupleVideo();
+
+    function createCoupleVideo() {
+      const video = document.createElement('video');
+      video.muted = true;
+      video.defaultMuted = true;
+      video.loop = true;
+      video.autoplay = false;
+      video.playsInline = true;
+      video.preload = 'auto';
+      video.setAttribute('muted', '');
+      video.setAttribute('playsinline', '');
+      video.setAttribute('webkit-playsinline', '');
+      video.addEventListener('error', () => {
+        coupleState.error = 'media-error-' + (video.error ? video.error.code : '?');
+      });
+      return video;
+    }
+
+    function isAppleWebKit() {
+      const ua = navigator.userAgent;
+      const iOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      const desktopSafari = /^((?!chrome|chromium|crios|fxios|edg|android).)*safari/i.test(ua);
+      return iOS || desktopSafari;
+    }
+
+    function playCoupleVideo() {
+      if (!coupleInView) return;
+      const promise = coupleVideo.play();
+      if (promise) promise.catch((err) => { coupleState.error = err.name; });
+    }
+
+    function markFrameDrawn() {
+      coupleState.frames += 1;
+      if (coupleState.frames === 1) coupleMedia.classList.add('is-playing');
+    }
+
+    function startNativeMode() {
+      coupleState.mode = 'native-webm';
+      coupleCanvas.remove();
+      coupleVideo.src = 'couple-alpha.webm';
+      coupleMedia.appendChild(coupleVideo);
+      coupleVideo.addEventListener('playing', markFrameDrawn, { once: true });
+      coupleVideo.load();
+    }
+
+    function startWebGLMode() {
+      const glOptions = { alpha: true, premultipliedAlpha: true };
+      const gl = coupleCanvas.getContext('webgl', glOptions) || coupleCanvas.getContext('experimental-webgl', glOptions);
+      if (!gl) return false;
+
+      const vsSource = `
+        attribute vec2 a_position;
+        varying vec2 v_texCoord;
+        void main() {
+          gl_Position = vec4(a_position, 0.0, 1.0);
+          v_texCoord = vec2((a_position.x + 1.0) * 0.5, 1.0 - (a_position.y + 1.0) * 0.5);
+        }
+      `;
+      const fsSource = `
+        precision mediump float;
+        varying vec2 v_texCoord;
+        uniform sampler2D u_video;
+        void main() {
+          vec3 rgb = texture2D(u_video, vec2(v_texCoord.x * 0.5, v_texCoord.y)).rgb;
+          float alpha = texture2D(u_video, vec2(0.5 + v_texCoord.x * 0.5, v_texCoord.y)).r;
+          gl_FragColor = vec4(rgb * alpha, alpha);
+        }
+      `;
+
+      function compileShader(type, source) {
+        const shader = gl.createShader(type);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        return gl.getShaderParameter(shader, gl.COMPILE_STATUS) ? shader : null;
+      }
+
+      const vs = compileShader(gl.VERTEX_SHADER, vsSource);
+      const fs = compileShader(gl.FRAGMENT_SHADER, fsSource);
+      if (!vs || !fs) return false;
+
+      const program = gl.createProgram();
+      gl.attachShader(program, vs);
+      gl.attachShader(program, fs);
+      gl.linkProgram(program);
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return false;
+      gl.useProgram(program);
+
+      gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]), gl.STATIC_DRAW);
+      const posLoc = gl.getAttribLocation(program, 'a_position');
+      gl.enableVertexAttribArray(posLoc);
+      gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+      gl.bindTexture(gl.TEXTURE_2D, gl.createTexture());
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.viewport(0, 0, coupleCanvas.width, coupleCanvas.height);
+      gl.clearColor(0, 0, 0, 0);
+
+      coupleState.mode = 'webgl-mp4';
+      coupleVideo.src = 'couple-hd.mp4';
+      document.getElementById('videoSourceHolder').appendChild(coupleVideo);
+      coupleVideo.load();
+
+      function drawFrame() {
+        if (coupleVideo.readyState < 2) return;
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, coupleVideo);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+        markFrameDrawn();
+      }
+
+      coupleVideo.addEventListener('loadeddata', drawFrame, { once: true });
+
+      if ('requestVideoFrameCallback' in HTMLVideoElement.prototype) {
+        const onVideoFrame = () => {
+          drawFrame();
+          coupleVideo.requestVideoFrameCallback(onVideoFrame);
+        };
+        coupleVideo.requestVideoFrameCallback(onVideoFrame);
+      } else {
+        const onAnimationFrame = () => {
+          if (!coupleVideo.paused) drawFrame();
+          requestAnimationFrame(onAnimationFrame);
+        };
+        requestAnimationFrame(onAnimationFrame);
+      }
+
+      // If iOS pauses the video while the user is still viewing the section, resume it
+      coupleVideo.addEventListener('pause', () => {
+        if (coupleInView && !document.hidden) playCoupleVideo();
+      });
+      return true;
+    }
+
+    if (!isAppleWebKit() && coupleVideo.canPlayType('video/webm; codecs="vp9"') !== '') {
+      startNativeMode();
+    } else if (!startWebGLMode()) {
+      coupleState.mode = 'poster-only';
+    }
+
+    // Play the couple video ONLY when the user reaches its section on scroll
+    const coupleScrollObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            coupleInView = true;
+            playCoupleVideo();
+          } else {
+            coupleInView = false;
+            coupleVideo.pause();
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && coupleInView) playCoupleVideo();
+    });
+
+    if (new URLSearchParams(location.search).has('debug')) {
+      const debugBox = document.createElement('div');
+      debugBox.className = 'couple-debug';
+      document.body.appendChild(debugBox);
+      setInterval(() => {
+        debugBox.textContent =
+          `mode=${coupleState.mode} ready=${coupleVideo.readyState} paused=${coupleVideo.paused} ` +
+          `inView=${coupleInView} t=${coupleVideo.currentTime.toFixed(1)} frames=${coupleState.frames} err=${coupleState.error || '-'}`;
+      }, 500);
+    }
+
+    waxSealBtn.addEventListener('click', () => {
+      // Ensure invitation starts right at the top when the envelope opens
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
+      // Play background music inside the user's tap
+      bgMusic.loop = true;
+      bgMusic.play().catch(() => {});
+
+      // Unlock the video element inside the user's tap gesture (required on iPhone / Low Power Mode)
+      // then immediately pause it at 00:00 so it waits until the user scrolls down to its section
+      if (!coupleUnlocked) {
+        coupleUnlocked = true;
+        const unlockPromise = coupleVideo.play();
+        if (unlockPromise !== undefined) {
+          unlockPromise.then(() => {
+            if (!coupleInView) {
+              coupleVideo.pause();
+              coupleVideo.currentTime = 0;
+            }
+          }).catch(() => {});
+        }
+      }
+
+      // Smoothly and slowly open the 4-flap envelope
+      envelopeOverlay.classList.add('opened');
+
+      // Start observing scroll-reveal elements and the video section as the envelope parts
+      setTimeout(() => {
+        revealElements.forEach((el) => revealObserver.observe(el));
+        coupleScrollObserver.observe(coupleMedia);
+      }, 1500);
+
+      // Show luxury "Scroll for more details" hint once venue image has gracefully appeared
+      setTimeout(() => {
+        const scrollMoreHint = document.getElementById('scrollMoreHint');
+        if (scrollMoreHint) {
+          scrollMoreHint.classList.add('is-visible');
+          const updateScrollHint = () => {
+            if (window.scrollY > 60) {
+              scrollMoreHint.classList.add('is-hidden');
+            } else {
+              scrollMoreHint.classList.remove('is-hidden');
+            }
+          };
+          updateScrollHint();
+          window.addEventListener('scroll', updateScrollHint, { passive: true });
+        }
+      }, 2400);
+
+      // Unlock page scrolling once the envelope flaps have gracefully opened
+      setTimeout(() => {
+        document.body.classList.remove('envelope-locked');
+      }, 2800);
+    });
+
+    // 2. Live Countdown to 11 December 2026, 7:00 PM
+    const targetDate = new Date('2026-12-11T19:00:00+02:00').getTime();
+    const daysEl = document.getElementById('cd-days');
+    const hoursEl = document.getElementById('cd-hours');
+    const minutesEl = document.getElementById('cd-minutes');
+    const secondsEl = document.getElementById('cd-seconds');
+
+    function updateCountdown() {
+      const diff = Math.max(0, targetDate - Date.now());
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      daysEl.textContent = String(days).padStart(2, '0');
+      hoursEl.textContent = String(hours).padStart(2, '0');
+      minutesEl.textContent = String(minutes).padStart(2, '0');
+      secondsEl.textContent = String(seconds).padStart(2, '0');
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // 3. Car Animation (Right -> Left revealing the Arabic address behind it, loops gently)
+    const movingCar = document.getElementById('movingCar');
+    const writtenLayer = document.getElementById('writtenLayer');
+    const carStage = document.getElementById('carStage');
+
+    let carAnimFrame = null;
+    let carStarted = false;
+
+    function runCarWriteCycle() {
+      if (carAnimFrame) cancelAnimationFrame(carAnimFrame);
+
+      const duration = 7500;
+      const pauseAfter = 4000;
+      const startTime = performance.now();
+
+      function easeInOutCubic(t) {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      }
+
+      function step(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(1, elapsed / duration);
+        const eased = easeInOutCubic(progress);
+
+        // Car moves from Right (135%) all the way past Left (-40%) so it completely disappears
+        const carPosPercent = 135 - eased * 175;
+        movingCar.style.left = `${carPosPercent}%`;
+        movingCar.style.opacity = carPosPercent < -18 || carPosPercent > 122 ? '0' : '1';
+
+        // Reveal Arabic text from Right to Left right behind the car
+        const clipLeft = Math.max(0, Math.min(100, carPosPercent + 2));
+        writtenLayer.style.clipPath = `inset(0 0 0 ${clipLeft}%)`;
+
+        if (progress < 1) {
+          carAnimFrame = requestAnimationFrame(step);
+        } else {
+          movingCar.style.opacity = '0';
+          writtenLayer.style.clipPath = 'inset(0 0 0 0%)';
+          setTimeout(runCarWriteCycle, pauseAfter);
+        }
+      }
+
+      carAnimFrame = requestAnimationFrame(step);
+    }
+
+    const carObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !carStarted) {
+            carStarted = true;
+            runCarWriteCycle();
+          }
+        });
+      },
+      { threshold: 0.35 }
+    );
+    carObserver.observe(carStage);
+
+    // 4. Realistic Small Flying Butterflies (6 Butterflies - 1 of Each Color)
+    const butterfliesContainer = document.getElementById('butterfliesContainer');
+    const butterflyImages = [
+      'butterfly-pink.png',
+      'butterfly-blue.png',
+      'butterfly-brown.png',
+      'butterfly-yellow.png',
+      'butterfly-purple.png',
+      'butterfly-green.png'
+    ];
+
+    const butterflyCount = 6;
+    const butterflies = [];
+
+    for (let i = 0; i < butterflyCount; i++) {
+      const el = document.createElement('div');
+      el.className = 'butterfly';
+      const imgSrc = butterflyImages[i];
+      const size = (window.innerWidth < 600 ? 18 : 21) + (i % 3) * 3;
+      const flapSpeed = (0.22 + Math.random() * 0.1).toFixed(2);
+      const flapDelay = (-Math.random() * 0.5).toFixed(2);
+
+      el.style.setProperty('--size', `${size}px`);
+      el.style.setProperty('--flap-speed', `${flapSpeed}s`);
+      el.innerHTML = `
+        <div class="butterfly-inner">
+          <img src="${imgSrc}" alt="" class="butterfly-sprite" style="animation-delay: ${flapDelay}s" />
+        </div>
+      `;
+      butterfliesContainer.appendChild(el);
+
+      const dir = i % 2 === 0 ? 1 : -1;
+      butterflies.push({
+        el,
+        x: 10 + (i * 15) % 80,
+        y: 12 + (i * 17) % 78,
+        dir,
+        baseSpeedX: dir * (0.04 + Math.random() * 0.03),
+        baseSpeedY: -0.025 - Math.random() * 0.025,
+        phase: Math.random() * Math.PI * 2,
+        flutterFreq: 0.022 + Math.random() * 0.014,
+        glideTimer: Math.random() * 200
+      });
+    }
+
+    function animateButterflies() {
+      butterflies.forEach((b) => {
+        b.phase += b.flutterFreq;
+        b.glideTimer += 1;
+
+        // Natural flutter-and-bobbing motion like a real butterfly
+        const flutterWave = Math.sin(b.phase);
+        const secondaryWave = Math.cos(b.phase * 0.6);
+
+        const dx = b.baseSpeedX * (0.85 + 0.3 * secondaryWave);
+        const dy = b.baseSpeedY + flutterWave * 0.045;
+
+        b.x += dx;
+        b.y += dy;
+
+        // Smooth screen wrap-around
+        if (b.y < -6) b.y = 104;
+        if (b.y > 106) b.y = -4;
+        if (b.x < -6) {
+          b.x = 104;
+        } else if (b.x > 106) {
+          b.x = -4;
+        }
+
+        // Gentle pitch angle following upward/downward bob
+        const tilt = (-dy * 220) - 6;
+
+        b.el.style.left = `${b.x}%`;
+        b.el.style.top = `${b.y}%`;
+        b.el.style.setProperty('--dir', b.dir);
+        b.el.style.setProperty('--tilt', `${Math.max(-22, Math.min(22, tilt)).toFixed(1)}deg`);
+      });
+
+      requestAnimationFrame(animateButterflies);
+    }
+
+    requestAnimationFrame(animateButterflies);
+  </script>
+</body>
+</html>
